@@ -14,36 +14,30 @@ export class BasicAuthInterceptor implements HttpInterceptor {
       request: HttpRequest<any>,
       next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // add header with basic auth credentials if user is logged in and request is to the api url
     const user = this.authenticationService.userValue;
     const isLoggedIn = user && user.authdata;
-    const isApiUrl = request.url.startsWith(environment.apiUrl);
-    if (isLoggedIn && isApiUrl) {
+    if (isLoggedIn) {
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${user.authdata}`
         }
       });
     }
-
-    return next.handle(request).pipe(
-        tap( event => {
-            if (event instanceof HttpResponse) {
-                if (event && event.status === 200) {
-                    this.toastr.success('Success!');
-                }
-            }
-        }),
-        catchError((err: any) => {
-             if (err instanceof HttpErrorResponse) {
-                try {
-                    this.toastr.error(err.error.message, err.error.title, { positionClass: 'toast-bottom-center' });
-                } catch(e) {
-                    this.toastr.error('An error occurred', '', { positionClass: 'toast-bottom-center' });
-                }
-             }
-             return of(err);
-        })
-    );
+    return next.handle(request);
+    // return next.handle(request).pipe(
+    //     tap( event => {
+    //         if (event instanceof HttpResponse) {
+    //             if (event && event.status === 200) {
+    //                 this.toastr.success('Success!');
+    //             }
+    //         }
+    //     }),
+    //     catchError((err: any) => {
+    //       if (err && err.error.message) {
+    //         this.toastr.error(err.error.message);
+    //       }
+    //       return of(err);
+    //     })
+    // );
   }
 }
