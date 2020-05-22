@@ -8,6 +8,8 @@ const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', l
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        console.log('FakeBackendInterceptor');
+
         const { url, method, headers, body } = request;
 
         return of(null)
@@ -64,8 +66,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 }
 
-export const fakeBackendProvider = {
-    provide: HTTP_INTERCEPTORS,
-    useClass: FakeBackendInterceptor,
-    multi: true
-};
+// export const fakeBackendProvider = {
+//     provide: HTTP_INTERCEPTORS,
+//     useClass: FakeBackendInterceptor,
+//     multi: true
+// };

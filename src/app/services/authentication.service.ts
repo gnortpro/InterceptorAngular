@@ -24,6 +24,7 @@ export class AuthenticationService {
   login(username: string, password: string) {
     return this.http
       .post<any>(`${environment.apiUrl}/users/authenticate`, {
+      // .post<any>(`${environment.apiUrl}/admin/v1/token`, {
         username,
         password
       })
