@@ -8,6 +8,7 @@ import { SpinnerService } from '../services/loading.service';
 
 @Injectable()
 export class BasicAuthInterceptor implements HttpInterceptor {
+  private totalRequests = 0;
   constructor(
   private authenticationService: AuthenticationService, 
   private toastr: ToastrService, 
@@ -18,6 +19,7 @@ export class BasicAuthInterceptor implements HttpInterceptor {
       request: HttpRequest<any>,
       next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    this.totalRequests++;
     this.spinnerService.show();
     const user = this.authenticationService.userValue;
     const isLoggedIn = user && user.authdata;
@@ -29,7 +31,6 @@ export class BasicAuthInterceptor implements HttpInterceptor {
         }
       });
     }
-    // return next.handle(request);
     return next.handle(request).pipe(
         tap( event => {
             if (event instanceof HttpResponse) {
@@ -39,7 +40,10 @@ export class BasicAuthInterceptor implements HttpInterceptor {
             }
         }),
         finalize(() => {
-          this.spinnerService.hide();
+          this.totalRequests--;
+          if (this.totalRequests === 0) {
+            this.spinnerService.hide();
+          }
         }),
         catchError((err: any) => {
           if (err && err.error.message) {

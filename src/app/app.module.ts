@@ -16,7 +16,7 @@ import { httpInterceptorProviders } from './interceptor';
       SpinnerComponent,
       LoginComponent,
       HomeComponent,
-      SpinnerComponent
+      SpinnerComponent,
    ],
    imports: [
       BrowserModule,
@@ -27,7 +27,9 @@ import { httpInterceptorProviders } from './interceptor';
       BrowserAnimationsModule,
       ToastrModule.forRoot()
    ],
-   providers: [httpInterceptorProviders],
+   providers: [
+      httpInterceptorProviders
+   ],
    bootstrap: [
       AppComponent
    ]
