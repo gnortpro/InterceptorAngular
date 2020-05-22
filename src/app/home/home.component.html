@@ -2,6 +2,6 @@
   Hello {{ users?.firstName + users?.lastName }}
   <button *ngIf="checkUser" (click)="logout()">Logout</button>
   <div *ngIf="isLoadingResults | async">
-    asdksajdsajkdaskjdsajk
+    <app-spinner></app-spinner>
   </div>
 </div>

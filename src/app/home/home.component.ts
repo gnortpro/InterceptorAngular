@@ -19,8 +19,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("isLoadingResults",this.isLoadingResults);
-    
     this.getUser();
   }
 
@@ -29,7 +27,7 @@ export class HomeComponent implements OnInit {
           this.users = users[0];
       });
   }
-  
+
   checkUser() {
     return localStorage.getItem('users');
   }
